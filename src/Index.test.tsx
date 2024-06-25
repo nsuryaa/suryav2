@@ -4,17 +4,17 @@ import {
   fireEvent,
   render,
   screen,
-} from '@testing-library/react';
+} from "@testing-library/react";
 
-import '__mocks__/matchMedia';
-import { App } from 'App/App';
-import { AppProvider, reducer } from 'App/AppContext';
-import { Footer } from 'components';
-import { themes } from 'appearance';
+import "__mocks__/matchMedia";
+import { App } from "App/App";
+import { AppProvider, reducer } from "App/AppContext";
+import { Footer } from "components";
+import { themes } from "appearance";
 
-configure({ testIdAttribute: 'data-v2' });
+configure({ testIdAttribute: "data-v2" });
 
-describe('application tests', () => {
+describe("application tests", () => {
   beforeEach(async () => {
     await act(async () => render(<App />));
   });
@@ -29,12 +29,12 @@ describe('application tests', () => {
     element: HTMLElement,
     display: RegExp,
     link?: string,
-    skipA11yNameCheck?: boolean,
+    skipA11yNameCheck?: boolean
   ) => {
     expect(element).toBeVisible();
     if (!skipA11yNameCheck) expect(element).toHaveAccessibleName();
     expect(element).toHaveTextContent(display);
-    if (link) expect(element).toHaveAttribute('href', link);
+    if (link) expect(element).toHaveAttribute("href", link);
   };
 
   /**
@@ -48,80 +48,80 @@ describe('application tests', () => {
     parent: HTMLElement,
     child: HTMLElement,
     display: RegExp,
-    link: string,
+    link: string
   ) => {
     expect(child).toHaveTextContent(display);
 
     expect(parent).toBeVisible();
     expect(parent).toHaveAccessibleName();
-    expect(parent).toHaveAttribute('href', link);
+    expect(parent).toHaveAttribute("href", link);
   };
 
-  it('should render name: Surya', () => {
-    const element = screen.getByTestId('name');
+  it("should render name: Surya", () => {
+    const element = screen.getByTestId("name");
 
     checkContent(element, /^Surya$/, undefined, true);
   });
 
-  it('should render title: Software Engineer', () => {
-    const element = screen.getByTestId('title');
+  it("should render title: Software Engineer", () => {
+    const element = screen.getByTestId("title");
 
     checkContent(element, /^Software Engineer$/, undefined, true);
   });
 
-  it('should render creator', () => {
-    const element = screen.getByTestId('creator');
+  it("should render creator", () => {
+    const element = screen.getByTestId("creator");
 
-    checkContent(element, /^Surya$/, '');
+    checkContent(element, /^Surya$/, "");
   });
 
-  it('should render link to source code', () => {
-    const element = screen.getByTestId('source');
+  it("should render link to source code", () => {
+    const element = screen.getByTestId("source");
 
-    checkContent(element, /^Source$/, '');
+    checkContent(element, /^Source$/, "");
   });
 
-  it('should render GitHub button', () => {
-    const parent = screen.getByTestId('button-GitHub');
-    const child = screen.getByTestId('GitHub');
+  it("should render GitHub button", () => {
+    const parent = screen.getByTestId("button-GitHub");
+    const child = screen.getByTestId("GitHub");
 
-    checkButton(parent, child, /^GitHub$/, 'https://github.com/nsuryaa/');
+    checkButton(parent, child, /^GitHub$/, "https://github.com/nsuryaa/");
   });
 
-  it('should render LinkedIn button', () => {
-    const parent = screen.getByTestId('button-LinkedIn');
-    const child = screen.getByTestId('LinkedIn');
+  it("should render LinkedIn button", () => {
+    const parent = screen.getByTestId("button-LinkedIn");
+    const child = screen.getByTestId("LinkedIn");
 
     checkButton(
       parent,
       child,
       /^LinkedIn$/,
-      'https://www.linkedin.com/in/nsuryaa/',
+      "https://www.linkedin.com/in/nsuryaa/"
     );
   });
 
-  it('should render Resume button', () => {
-    const parent = screen.getByTestId('button-Resume');
-    const child = screen.getByTestId('Resume');
+  it("should render Resume button", () => {
+    const parent = screen.getByTestId("button-Resume");
+    const child = screen.getByTestId("Resume");
 
     checkButton(
       parent,
       child,
       /^Resume$/,
-      'https://drive.google.com/file/d/1VOVaIE8Otwkyb3fzPcsLH8EYtE2U1ra5/view?usp=drive_link',
+      "https://drive.google.com/file/d/1rRArzFEAR_-_-FDKmgn9snjjeTaZXIGT/view?usp=sharing"
     );
   });
 
-  it('should render Email button', () => {
-    const parent = screen.getByTestId('button-Email');
-    const child = screen.getByTestId('Email');
+  it("should render Email button", () => {
+    const parent = screen.getByTestId("button-Email");
+    const child = screen.getByTestId("Email");
 
-    checkButton(parent, child, /^Email$/, 'mailto:aalston9@gmail.com');
+    checkButton(parent, child, /^Email$/, "mailto:aalston9@gmail.com");
   });
 
-  it('should toggle between the dark and light themes', () => {
-    const toggle = screen.getByTestId('toggle');
-    const particles = screen.getByTestId('particles');
+  it("should toggle between the dark and light themes", () => {
+    const toggle = screen.getByTestId("toggle");
+    const particles = screen.getByTestId("particles");
 
     expect(toggle).toBeVisible();
     expect(toggle).toHaveAccessibleName();
@@ -131,118 +131,112 @@ describe('application tests', () => {
 
     // site should default to the dark theme
     expect(toggle).toBeChecked();
-    expect(particles).toHaveStyle({ backgroundColor: '#000' });
+    expect(particles).toHaveStyle({ backgroundColor: "#000" });
 
     // click the toggle
     fireEvent.click(toggle);
 
     // the light theme should be visible
     expect(toggle).not.toBeChecked();
-    expect(particles).toHaveStyle({ backgroundColor: '#fff' });
+    expect(particles).toHaveStyle({ backgroundColor: "#fff" });
   });
 
-  it('should render full footer on desktop', () => {
-    const footer = screen.getByTestId('footer');
+  it("should render full footer on desktop", () => {
+    const footer = screen.getByTestId("footer");
 
-    expect(footer).toHaveTextContent(
-      /^Designed and built by Surya \| Source$/,
-    );
+    expect(footer).toHaveTextContent(/^Designed and built by Surya \| Source$/);
   });
 });
 
-describe('app context tests', () => {
-  it('should render partial footer on mobile', async () => {
+describe("app context tests", () => {
+  it("should render partial footer on mobile", async () => {
     await act(async () =>
       render(
-        <AppProvider
-          config={{} as any}
-          isMobile={true}
-          children={<Footer />}
-        />,
-      ),
+        <AppProvider config={{} as any} isMobile={true} children={<Footer />} />
+      )
     );
 
     // partial footer should now be visible
-    const footer = screen.getByTestId('footer');
+    const footer = screen.getByTestId("footer");
 
     expect(footer).toHaveTextContent(/^Designed and built by Surya$/);
     expect(footer).not.toHaveTextContent(/Source/);
   });
 
-  describe('reducer tests', () => {
-    it('should return the initial state', () => {
+  describe("reducer tests", () => {
+    it("should return the initial state", () => {
       const state = reducer(undefined, {});
 
       expect(state).toEqual(undefined);
     });
 
-    it('should return the dark theme', () => {
-      const state = reducer(undefined, { type: 'SET_THEME', value: 'dark' });
+    it("should return the dark theme", () => {
+      const state = reducer(undefined, { type: "SET_THEME", value: "dark" });
 
       expect(state).toEqual({ theme: themes.dark });
     });
 
-    it('should return the light theme', () => {
-      const state = reducer(undefined, { type: 'SET_THEME', value: 'light' });
+    it("should return the light theme", () => {
+      const state = reducer(undefined, { type: "SET_THEME", value: "light" });
 
       expect(state).toEqual({ theme: themes.light });
     });
   });
 });
 
-describe('local storage tests', () => {
+describe("local storage tests", () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
   it("should show the dark theme when 'theme' is set to 'true' in local storage", async () => {
     // set local storage item and render the app
-    localStorage.setItem('theme', 'true');
+    localStorage.setItem("theme", "true");
     await act(async () => render(<App />));
 
     // check that the local storage item has been updated correctly
-    expect(localStorage.getItem('theme')).toEqual('dark');
-    const particles = screen.getByTestId('particles');
-    expect(particles).toHaveStyle({ backgroundColor: '#000' });
+    expect(localStorage.getItem("theme")).toEqual("dark");
+    const particles = screen.getByTestId("particles");
+    expect(particles).toHaveStyle({ backgroundColor: "#000" });
   });
 
   it("should show the light theme when 'theme' is set to 'false' in local storage", async () => {
     // set local storage item and render the app
-    localStorage.setItem('theme', 'false');
+    localStorage.setItem("theme", "false");
     await act(async () => render(<App />));
 
     // check that the local storage item has been updated correctly
-    expect(localStorage.getItem('theme')).toEqual('light');
+    expect(localStorage.getItem("theme")).toEqual("light");
 
-    const particles = screen.getByTestId('particles');
-    expect(particles).toHaveStyle({ backgroundColor: '#fff' });
+    const particles = screen.getByTestId("particles");
+    expect(particles).toHaveStyle({ backgroundColor: "#fff" });
   });
 
   // https://testing-library.com/docs/react-testing-library/api/#rerender
-  it('should persist the light theme through an app re-render', async () => {
+  it("should persist the light theme through an app re-render", async () => {
     const { rerender } = render(<App />);
 
-    expect(localStorage.getItem('theme')).toBeNull();
-    localStorage.setItem('theme', 'light');
+    expect(localStorage.getItem("theme")).toBeNull();
+    localStorage.setItem("theme", "light");
 
     // re-render the app and check the theme
     await act(async () => rerender(<App />));
-    const particles = screen.getByTestId('particles');
+    const particles = screen.getByTestId("particles");
 
-    expect(localStorage.getItem('theme')).toEqual('light');
-    expect(particles).toHaveStyle({ backgroundColor: '#fff' });
+    expect(localStorage.getItem("theme")).toEqual("light");
+    expect(particles).toHaveStyle({ backgroundColor: "#fff" });
   });
 
-  it('should change local storage value when toggle is clicked', async () => {
+  it("should change local storage value when toggle is clicked", async () => {
     // set local storage item and render the app
-    localStorage.setItem('theme', 'light');
+    localStorage.setItem("theme", "light");
     await act(async () => render(<App />));
 
     // click the toggle
-    const toggle = screen.getByTestId('toggle');
+    const toggle = screen.getByTestId("toggle");
     fireEvent.click(toggle);
 
     // check that the local storage item has been changed
-    expect(localStorage.getItem('theme')).not.toEqual('light');
+    expect(localStorage.getItem("theme")).not.toEqual("light");
   });
 });
